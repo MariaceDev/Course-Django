@@ -1,0 +1,14 @@
+
+NUEVO PROYECTO
+django-admin startproject holamundo
+
+Crea un archivo manage.py y una carpeta holamundo, que una aplicación que se gestiona como un paquete.
+El directorio raíz que se crea como defecto tiene el mismo nombre que el proyecto.
+
+manage.py nos permite gestionar el proyecto, no hay qie tocar, se encarga de poner a nuestgra disposición las instrucciones de consola para poder operar.
+
+En la carpeta está toda la estructura de archivos: todas las aplicaciones (carpetas) tienen:
+- un _init_.py, para poder gestionar cada aplicaicón com unnpaquete
+- asgi.py y wsgi son archivos auxiliares, que nos van a servir para ayudarnos por ejemplo, con el servidor y otras acciones ausiliares.
+- urls.py: asocia las urls con las vistas que los gestionan. Es un array con los path. Aquí escribiremos todas las rutas y las vistas, también  los templates.
+- settings.py: para establecer las configuraciones del paquete. Por ejemplo: hay un array con las apps instaladas, gracias a que es un framework vienen ya instaladas
