@@ -12,3 +12,14 @@ En la carpeta está toda la estructura de archivos: todas las aplicaciones (carp
 - asgi.py y wsgi son archivos auxiliares, que nos van a servir para ayudarnos por ejemplo, con el servidor y otras acciones ausiliares.
 - urls.py: asocia las urls con las vistas que los gestionan. Es un array con los path. Aquí escribiremos todas las rutas y las vistas, también  los templates.
 - settings.py: para establecer las configuraciones del paquete. Por ejemplo: hay un array con las apps instaladas, gracias a que es un framework vienen ya instaladas
+
+1.5 PRIMER HOLA MUNDO: CIRCUITO COMPLETO
+
+- Creamos una archivo de vistas para controlar la ruta y devolver un mensaje http para poder comprobar el circuito completo de esta arquitectura.
+- Entramos en la terminal y creamos la estructura de base de 11:32 03/07/2023datos:para ello migra los modelos de datos a nuestro sistema de permanencia de datos a través del comando "migrator". Lo tendremos que hcer cada vez que modifiquemos la estructura de datos, al inicio y cada vez que trabajemos con él.
+- Primero debemos llamar al archivo manage.py para hacer cualquier acción en la terminal y luego le solicitamos el comando ejecutar
+- Entonces ejecutamos el comando: python manage.py migrate (tienes que colocarte en la ruta correcta)
+- Para ver la db en vs instalamos sql tools y sql viewer
+
+
+
