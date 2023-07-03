@@ -8,3 +8,13 @@ def saludo(request):
 
 # Ya tenemos la vista creada, ahora necesitamos asociar una ruta que ejecute la vista. 
 # Para ello nos vamos el urls.py y la definimos: 
+
+def despedida (request):
+    return HttpResponse("Adiós, hasta otra")
+
+def adulto (request, edad):
+    if(edad >= 18):
+        return HttpResponse ("Es mayor de edad.")
+    else:
+        return HttpResponse ("No eres mayor de edad.")
+    
