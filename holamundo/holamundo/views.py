@@ -12,6 +12,8 @@ def saludo(request):
 def despedida (request):
     return HttpResponse("Adiós, hasta otra")
 
+#rutas con parámetros
+
 def adulto (request, edad):
     if(edad >= 18):
         return HttpResponse ("Es mayor de edad.")
