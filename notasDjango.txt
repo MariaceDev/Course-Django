@@ -289,8 +289,21 @@ Y para extender el contenido que queremos cambiar bastaría con definirlo:
    	 <h1> HERENCIA</h1>
 	{% endblock %}
 
+2.8. ENLACE E INCLUSIÓN
 
+Primero creamos un path para incluir el directorio raíz ddel proyectos:
+	 path('index/', views.index, name='index')
+Y definimos la vista:
+	def index (request):
+    		return render (request, 'index.html', {}) 
+Creamos el archivo index.html dentro de la carpeta template y extendemos la plantilla base.
 
+Empezamos con los links, haciendo las vinculaciones a través de los links y no escribiéndolo sobre la barra de direcciones.
+Para ello, vamos al base.html y definimos ahí los enlaces. 
+Para hacer los enlaces utilizamos los nombres definidos en el path, también la ruta del path, aunque es un codigo más difícil de mantener si hubiera que modificarlo.
+El nombre es mucho más fácil de modificar porque solo habría que cambiarlo una vez:
+
+	 <li><a href="{% url 'herencia' %}">Herencia</a></li>
 
 
 
