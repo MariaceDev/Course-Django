@@ -8,14 +8,19 @@
     <body>
         <h1>Hola {{name}}</h1>
         <h3>Categorías</h3>
+        {% comment %}
+          En la parte inferior recorremos las categorías y las pintamos
+          en caso de de ser code, ña categoría se muestra en negrita
+        {% endcomment %}
         <ul>
-            {% for category in categories %} <!--Hacemos un foreach para recorrer el array-->
-                {% if category == 'code' %} <!--Incorporamos el if con la condición-->
-                    <li><b>{{category}}</b></li> <!--Le indicamos que lo pinte en negrita-->
-                {% else %} <!--Si no se cumple la condición: -->
-                    <li>{{category}}</li> <!--Escribimos código con la imformación que usamos, es un literal-->
-                    {% endif %} <!--Cerramos el if-->
-            {% endfor %} <!--Cerramos el foreach-->
+            {% for category in categories %} {#Hacemos un foreach para recorrer el array#}
+                {% if category == 'code' %} {# Incorporamos el if con la condición #}
+                    <li><b>{{category | upper}}</b></li> {# Le indicamos que lo pinte en negrita y en mayúscula gracias a un filtro #}
+                {% else %} {# Si no se cumple la condición: #} 
+                    <li>{{category}}</li> {# Escribimos código con la imformación que usamos, es un literal #}
+                    {% endif %} {# Cerramos el if #}
+            {% endfor %} {# Cerramos el foreach #}
         </ul>  
+        <h5>Total de categorías: {{categories|length}}</h5>
     </body>
 </html>

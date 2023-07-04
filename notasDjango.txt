@@ -176,6 +176,42 @@ También, podemos incorporar CONDICIONALES:
     </body>
 
 
+2.5. COMENTARIOS Y FILTROS
+
+En las plantillas podemos escribir COMENTARIOS que no van a ser pintados en la consola: <!---->, aparece en la consola de Google cuando inspeccionamos el código.
+
+Hay dos formas:
+
+-Comentario simple: {# #}
+- Comentario multilinea: {% coment %}
+                          Hola, soy comentario multilínea
+                         {% endcoment %}
+
+
+
+Django ofrece una gran cantidad de filtros para realizar especificaciones. Por ejemplo, finaliza el bucle y queremos colocar un h5 con el total de categorías, aunque no tengamos el length, podemos usar un filtro:
+	
+	<h5>Total de categorías: {{categories|length}}</h5>
+
+Y el resultado sería:
+
+Hola Mari Carmen
+Categorías
+   · code
+   · design
+   · marketing
+
+Total de categorías: 3
+
+Otro ejemplo, que lo coloque en mayúsculas:
+
+	<li><b>{{category | upper}}</b></li>
+
+También se pueden anidar
+
+	<li><b>{{category | upper | lower | capitalize | title }}</b></li>
+
+
 
 
 
