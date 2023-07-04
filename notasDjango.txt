@@ -212,7 +212,46 @@ También se pueden anidar
 	<li><b>{{category | upper | lower | capitalize | title }}</b></li>
 
 
+2.6. ARCHIVOS ESTÁTICOS
 
+1.- Creamos un nuevo proyecto: django-admin startproject estaticos
+2.- Migramos el sistema: python manage.py migrate
+3.- Corremos el servidor: python manage.py runserver
+4.- Generamos un circuito para caragr una plantilla:
+
+	1. setting.py e indicamos el directorio 'templates'
+	2. Creamos el directorio 'templates'
+	3. Accedemos al archivo de rutas y cargamos una vista
+		1. Para ello generamos el archivo de vistas: views.py
+		2. Creamos una vista llamada estaticos que, por ahora, dejamos vacía:
+			def estaticos(request):
+    				return ""
+	4. Colocamos en la urls la importación de dicho archivo:
+		from . import views
+		path('estaticos/', views.estaticos, name='estaticos')
+	5. El archivo views.py importamos el método render para poder pintar las vistas:
+		from django.shortcuts import render
+		def estaticos(request):
+    			return render (request, 'estaticos.html', {})
+	6. Creamos la plantilla: estaticos.html
+
+
+ ¿Cómo hacemos la importación de archivos estáticos en una plantilla?
+
+1. Vamos al archivo setting.py y en STATIC_URL = 'static/' es la ubicación donde pondremos los archivos estáticos.
+Por defecto se coloca en la raíz del proyecto. Nosotros lo haremos así:
+	- Accedemos a nuestro proyecto y creamos un directorio donde irán todos los archivos js, css, imágenes, etc., que usaremos en el proyecto.
+
+2. Creamos el archivo estático dentro de la carpeta, como por ejemplo un css: style.css
+3. Indicamos a la plantilla, antes que el doctype, que va a hacer uso de elementos estáticos: {% load static %}
+4. Para cargar el css en el HTML no se hace de la manera normal, sino utilizando la nomenclatura de django que va a especificar dentro de l aplantilla qué archivos van a ser de carga estática:
+	  <link rel="stylesheet" type="text/css" href="{% static 'style.css' %}" >
+5. Comprobamos el navegador y no se ha caragdo correctamente debido a la configuración, porque tenemos que indicar los directorios que va a tener la configuración sobre los archivos estáticos.
+Esto se hace añadiendo una variable de entorno más en el setting. La variable es:
+	STATICFILES_DIRS = [#recibe un array con las url que vamos a tener
+	BASE_DIR / 'static', #añadimos el directorio base junto con static, que es lo que hemos definido anteriormente
+	'/var/www/static', #añadimos este directorio, que será el que albergará los archivos estáticos una vez hagamos el deploy, aunque todavía no esté creada
+	]
 
 
 
