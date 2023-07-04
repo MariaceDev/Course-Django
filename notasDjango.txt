@@ -253,6 +253,44 @@ Esto se hace añadiendo una variable de entorno más en el setting. La variable 
 	'/var/www/static', #añadimos este directorio, que será el que albergará los archivos estáticos una vez hagamos el deploy, aunque todavía no esté creada
 	]
 
+2.7. HERENCIA DE PLANTILLAS
+
+Nos va apermitir modularizar nuestro HTML y evitar la reutilización de código, para no concurrir en duplicidad de etiquetas o módulos.
+Creamos un nuevo proyecto con la views, la carpeta template, static y todo el recorrido para cargar una plantilla y el contenido estático que necesite.
+
+Añadimos una nueva ruta, porque nuestro proyecto puede necesitar varias rutas:
+	path('ejemplo/', views.ejemplo, name='ejemplo'),
+Y le creamos una vista:
+	def ejemplo (request):
+    return render (request, 'ejemplo.html', {})
+Y otra ruta más para que se entienda bien, con su vista y su template, a la que llamaremos 'otra'.
+
+Para rellenar los template ejemplo u otra, estamos copiando contenido y rellenando. Esto no es una buena práctica, es un problema.
+Para evitarlo, tenemos las herencias. Indicamos que una plantilla va a heredar de una plantilla padre que le puede heredar una estructura.
+ así estandarizamos el contenido del layout.
+
+Para hacerlo, creamos un nuevo directorio, dentro de template, que se llama de diferentes maneras ( app, base o layout) y dentro creamos una plantilla: base.html.
+Rellenamos la platilla con las etiquetas básicas y le añadimos un archivo css.
+
+Ahora el siguiente paso es extender el contenido de la base a las otras plantillas. Para ello especificaremos qué partes pueden ser extendidas, es decir, las que van a cambiar por medio de bloques:
+	{% block styles %}{% endblock %} -Para incluir más hojas de estilo
+	{% block title %}{% endblock %} -Para cambiar el título
+	{% block content %}{% endblock %} -PAra cambiar contenido
+	{% block scripts %}{% endblock %} - Para incluir diferentes scripts
+
+El siguiente paso será cómo pueden el resto de plantillas extender la información de la base:
+	{% extends './layout/base.html' %}
+Ahora, por defecto, tendrán todo el contenido de la base, que se mostrará en herencia.
+
+Y para extender el contenido que queremos cambiar bastaría con definirlo:
+	{% block title %}HERENCIA{% endblock %}
+
+	{% block content %}
+   	 <h1> HERENCIA</h1>
+	{% endblock %}
+
+
+
 
 
 

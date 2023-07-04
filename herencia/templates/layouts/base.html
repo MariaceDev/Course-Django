@@ -1,0 +1,28 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device, initial-scale=1">
+        <link rel="stylesheet" href="{% static 'style.css' %}" >
+        {% block styles %}{% endblock %} 
+        <title> {% block title %}{% endblock %}</title>
+    </head>
+    <body>
+        <nav>
+            <ul>
+                <li><a href="#">Herencia</a></li>
+                <li><a href="#">Otras</a></li>
+                <li><a href="#">Ejemplo</a></li>
+            </ul>
+        </nav>
+        <main>
+            {% block content %}{% endblock %}
+
+        </main>
+        <footer>
+            Made with love by @MariaCéDev
+        </footer>
+        {% block scripts %}{% endblock %}
+    </body>
+</html>
