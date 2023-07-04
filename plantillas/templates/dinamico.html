@@ -8,6 +8,14 @@
     <body>
         <h1>Hola {{name}}</h1>
         <h3>Categorías</h3>
-        <p>{{categories}}</p>   
+        <ul>
+            {% for category in categories %} <!--Hacemos un foreach para recorrer el array-->
+                {% if category == 'code' %} <!--Incorporamos el if con la condición-->
+                    <li><b>{{category}}</b></li> <!--Le indicamos que lo pinte en negrita-->
+                {% else %} <!--Si no se cumple la condición: -->
+                    <li>{{category}}</li> <!--Escribimos código con la imformación que usamos, es un literal-->
+                    {% endif %} <!--Cerramos el if-->
+            {% endfor %} <!--Cerramos el foreach-->
+        </ul>  
     </body>
 </html>

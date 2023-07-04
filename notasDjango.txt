@@ -111,6 +111,70 @@ def simple(request):
 	
 	    <h1>Hola {{name}}</h1>
 
+6.- Podemos pasar todo tipo de datos, incluso objetos y clases con sus métodos. No solo tipo de datos primitivos.
+7.- Porbamos a pasar un array:
+
+	def dinamico (request, name):
+    	  categories = ['code', 'design', 'marketing']
+    	  context = {'name': name, 'categories': categories}
+    	  return render(request, 'dinamico.html', context)
+         ____________________________________________________
+
+  	<body>
+          <h1>Hola {{name}}</h1>
+          <h3>Categorías</h3>
+          <p>{{categories}}</p>   
+    	</body>
+
+Resultado:
+
+Hola Mari Carmen
+Categorías
+['code', 'design', 'marketing']
+
+Como podemos ver, nos pinta la estructura, pero lo que queremos es simplemente acceder a la imformación de la estructura, para ello tendremos que recorrer la estructura para pintar la info sin corchetes, de forma correcta.
+
+
+2.4. BUCLES Y CONDICIONALES EN PLANTILLAS
+
+Es importante que no cargemos acciones de lógica en las plantillas (HTML), igualmente no debemos pintar (visualización) en las vistas.
+
+Para recorrer las estructuras, BUCLES, debemos usar una nomenclatura diferente {% %}. La estructura quedaría de la siguiente manera:
+
+   <body>
+        <h1>Hola {{name}}</h1>
+        <h3>Categorías</h3>
+        <ul>
+            {% for category in categories %} <!--Hacemos un foreach para recorrer el array-->
+                <li>{{category}}</li> <!--Escribimos código con la imformación que usamos, es un literal-->
+            {% endfor%} <!--Cerramos el foreach-->
+        </ul>  
+    </body>
+
+Y el resultado:
+
+Hola Mari Carmen
+Categorías
+   · code
+   · design
+   · marketing
+
+También, podemos incorporar CONDICIONALES:
+
+   <body>
+        <h1>Hola {{name}}</h1>
+        <h3>Categorías</h3>
+        <ul>
+            {% for category in categories %} <!--Hacemos un foreach para recorrer el array-->
+                {% if category == 'code' %} <!--Incorporamos el if con la condición-->
+                    <li><b>{{category}}</b></li> <!--Le indicamos que lo pinte en negrita-->
+                {% else %} <!--Si no se cumple la condición: -->
+                    <li>{{category}}</li> <!--Escribimos código con la imformación que usamos, es un literal-->
+                    {% endif %} <!--Cerramos el if-->
+            {% endfor %} <!--Cerramos el foreach-->
+        </ul>  
+    </body>
+
 
 
 
