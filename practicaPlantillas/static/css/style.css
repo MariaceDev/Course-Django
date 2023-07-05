@@ -1,0 +1,123 @@
+@import url('https://fonts.googleapis.com/css2?family=Josefin+Slab:ital,wght@0,400;0,700;1,200&family=Roboto:wght@300;400&display=swap');
+
+:root{
+    --color-primary: #f5accb ;
+    --color-secundary: #ef5a70 ;
+    --color-text: #415059;
+    --color-bgcolor: aliceblue;
+    --font-title: 'Josefin Slab', serif; 
+    --font-text: 'Roboto', serif;
+}
+
+* {
+    padding: 0;
+    margin: 0;
+    box-sizing: border-box;
+    font-family: var(--font-text);
+}
+
+h1, h2, h3, h4, h5 {
+    font-family: var(--font-title);
+}
+
+
+nav {
+    display: flex;
+    justify-content:space-between;
+    align-items: center;
+    padding: 1.5em;
+    background-color: var(--color-bgcolor);
+}
+
+nav img{
+    width: 5%;
+}
+
+ul{
+    list-style-type: none;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+ul li {
+    padding: 20px;
+}
+
+ul li a {
+    text-decoration: none;
+    color: var(--color-text)
+}
+
+ul li a:hover{
+    color: var(--color-secundary);
+}
+
+main {
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    align-items: center;
+    width: 100%;
+    padding: 6em;
+    min-height: 80vh;
+}
+
+
+footer {
+    background-color: var(--color-text);
+    color: white;
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+    width: 100%;
+    padding: 2em;
+}
+
+
+footer ul{
+    list-style-type: none;
+    display: flex;
+    flex-direction: column;
+}
+
+footer ul li {
+    padding: 0.5em;
+    font-weight: var(--font-text);
+}
+
+
+footer ul li a{
+    color: white;
+    text-decoration: none;
+}
+
+footer img{
+    width: 7%;
+    margin-bottom: 1em;
+}
+
+.about{
+    display: flex;
+    justify-content: center;
+    padding: 3em;
+    align-items: center;
+}
+
+
+.aboutContent{
+    width: 40%;
+    margin: 3em;
+}
+
+.photos{
+    margin-top: 3em;
+    display: flex;
+    justify-content: center;
+    width: 80%;
+    flex-wrap: wrap;
+}
+
+.photos img{
+    padding: 1em;
+}

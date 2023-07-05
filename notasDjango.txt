@@ -305,5 +305,19 @@ El nombre es mucho más fácil de modificar porque solo habría que cambiarlo un
 
 	 <li><a href="{% url 'herencia' %}">Herencia</a></li>
 
+Para modularizar mucho más el código podemos hacer uso de los includes. Dentro de layouts hacemos una nueva carpeta llamada 'parcials' y dentro creamos una plantilla que sea un menú html.
+
+Cortamos el nav del archivo de la base y lo pegamos en el menu.html.
+Ahora o que queremos es que la base extienda el menú con el include:
+
+	  {% include 'layouts/partials/menu.html' %}
+
+2.9. DOCUMENTACIÓN OFICIAL
+
+2.10. PRÁCTICA DE PLANTILLAS
+
+
+
+
 
 
