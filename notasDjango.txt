@@ -356,6 +356,52 @@ Este patrón de arquitectura MODEL TEMPLATE VIEW (MTV) es una variación del (MV
 	- En el patrón MVC, el Controlador es responsable de recibir las acciones del usuario y actualizar el Modelo y la Vista en consecuencia. 
 	- En el patrón MTV, la Vista se encarga de la lógica de negocio y la interacción entre el Modelo y la Plantilla.
 
+3.2. MODELADO DE DATOS
+
+Los modelos van a ser elementos que van a estar representando datos que el ORM se va a encargar de gestionar dentro de nuestro sistema de bases de datos.
+El ORM de Django nos va a abstraer del ORM, por ejemplo consultas sql, etc. Podremos trabajar cada uno de los elementos como si fuese un objeto: en lugar de crear
+tablas, crearemos clases en python. Estas clases extenderán un modelo y van a perminirnos crear objetos. El ORM de Django lo que hará por detrás es generar una tabla
+en nuestro sistema de permanencia de datos por cada clase que creemos. Nosotros solo creamos clases y django una tabla, donce cada atributo corresponderá una tabla.
+
+
+Comenzmos por el ejemplo más sencillo: un comentarios.
+
+Trabjanmos con MODELS: cada modelo es una clase y empezamos por una:
+
+	class comments (models.Model):
+
+   		 def __str__(self):
+      		  return
+
+Cuando migremos esto, django detectará la clase comments y creará una tabla en la DB.
+Ejemplo:
+
+	class comments (models.Model):
+
+    		name = models.CharField(max_length=255, null=False)
+    		score = models.IntegerField(default=3)
+    		comment = models.TextField(max_length=1000, null=True)
+
+    		def __str__(self):
+        		return self.name
+
+Como hemos hecho una modificación del modelo, debemos hacer una migración. En Django se hace de la siguiente manera:
+
+1. Pedimos que la clase sea traducida a sql:
+	python manage.py makemigrations
+Entonces nos crea este archivo:  comentarios\migrations\0001_initial.py
+
+2. Ejecutamos la migración con: python manage.py migrate
+Si vemos la DB, aparece la estructura habitual más una tabla llamada comentarios_comments (nombre_app.nombre_clase)
+Si pulsamos vemos la tabla con los campos que hemos definido, junto con un id que es automático si no se define.
+Podemos modificar el modelo sin problema, solo que hay que hacer la migraci´`on para que se guarden los cambios:
+	python manage.py makemigrations
+	python manage.py migration
+Para no compremer la integridad de la DB, no debemos añadir campos que no pueden ser nulos después de haber creado la tabla, porque los que se hayan añadido
+con anterioridad no van a estar rellenos. Para arreglar ese problema debemos añadir otro campo que puede ser, por ejemplo: null=True o añadir un valor por defecto: deafult=""
+
+Los archivos.py que se generan con un número delante sirven para controlar la versión que va subiendo al sistema. Lo hace gracias a que una de las tabla que genera para funcionar es 
+migration, donde guarda toda la evolución de la DB. Es muy útil porque podemos hacer un roll back para hacer algún cambio.
 
 
 
