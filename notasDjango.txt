@@ -243,7 +243,8 @@ Por defecto se coloca en la raíz del proyecto. Nosotros lo haremos así:
 	- Accedemos a nuestro proyecto y creamos un directorio donde irán todos los archivos js, css, imágenes, etc., que usaremos en el proyecto.
 
 2. Creamos el archivo estático dentro de la carpeta, como por ejemplo un css: style.css
-3. Indicamos a la plantilla, antes que el doctype, que va a hacer uso de elementos estáticos: {% load static %}
+3. Indicamos a la plantilla, antes que el doctype, que va a hacer uso de elementos estáticos: 
+		{% load static %}
 4. Para cargar el css en el HTML no se hace de la manera normal, sino utilizando la nomenclatura de django que va a especificar dentro de l aplantilla qué archivos van a ser de carga estática:
 	  <link rel="stylesheet" type="text/css" href="{% static 'style.css' %}" >
 5. Comprobamos el navegador y no se ha caragdo correctamente debido a la configuración, porque tenemos que indicar los directorios que va a tener la configuración sobre los archivos estáticos.
@@ -315,6 +316,47 @@ Ahora o que queremos es que la base extienda el menú con el include:
 2.9. DOCUMENTACIÓN OFICIAL
 
 2.10. PRÁCTICA DE PLANTILLAS
+
+________________________________________________________________________________________________________________
+________________________________________________________________________________________________________________
+
+
+3.1. MODULARIZACIÓN
+
+Creamos la primera aplicación dentro de un proyecto ya creado en Django:
+
+1. django-admin startproject modularizacion
+2. creamos una nueva aplicación: 
+	python manage.py startapp comentarios #el último es el nombre que hemos elegido para la app
+3. la app funciona como otra aplicación y contiene otros archivos como el views, otro para test, para modularición, todos los iremos trabajando
+4. contiene un directorio de migraciones.
+5. Si queremos reutilizar la app de comentarios en nuestro proyecto práctica plantillas, tan solo tenemos que llevarnos el directorio al proyecto.
+6. Tenemos que decirle a django cuáles de las aplicaciones que tenemos van a estar instaladas en el proyecto, es decir, cuáles son las que vamos a utilizar.
+Esto lo hacemos en el archivo:
+		 settings.py => INSTALLED_APPS => 'comentarios',
+Como habita en la raíz del proyecto es suficiente con poner el nombre de la app. Como comentarios funciona como un paquete, se instala.
+
+Para comprobar si la app está correctamente instalada ejecutamos en consola:
+	python manage.py check comentarios
+Respuesta: System check identified no issues (0 silenced).
+Significa que ha detectado la app y no hay fallos en ella.
+
+RESUMEN RECORRIDO ARQUITECTURA
+
+1. El USUARIO realiza una petición a una URL que nosotros gestionamos con el archivo urls.py
+2. Este urls.py deriba a una VIEWS.py que contendrá la lógica a través de funciones def.
+3. El views.py puede que necesite realizar acciones con los datos del proyecto, esto lo hace a través de los MODELOS.
+4. Los modelos a través del ORM harán las gestiones con el motor de base de datos para garantizar la persistencia.
+5. Devuelve las informaciones a la VISTA, que renderiza, pinta un TEMPLATE, que es la información que recibe el usuario, la WEB servida en su navegador
+
+Este patrón de arquitectura MODEL TEMPLATE VIEW (MTV) es una variación del (MVC). Las principales diferencias son:
+
+	- En el patrón MVC, la Vista se encarga de la presentación de los datos al usuario, mientras que en el patrón MTV, 
+	  la Plantilla se encarga de esta responsabilidad.
+	- En el patrón MVC, el Controlador es responsable de recibir las acciones del usuario y actualizar el Modelo y la Vista en consecuencia. 
+	- En el patrón MTV, la Vista se encarga de la lógica de negocio y la interacción entre el Modelo y la Plantilla.
+
+
 
 
 
