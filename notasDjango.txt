@@ -404,6 +404,19 @@ Los archivos.py que se generan con un número delante sirven para controlar la v
 migration, donde guarda toda la evolución de la DB. Es muy útil porque podemos hacer un roll back para hacer algún cambio.
 
 
+3.3. DELEGACIÓN DE RUTAS
+
+Comprobamos el funcionamiento del modelado de datos en nuestra app.
+Vemos como comunicamos todas las acciones a nuestro proyecto raíz manteniendo una modularización de nuestra estructura.
+Una buena práctica es que cada aplicación contenga sus propias urls y hacer que el proyecto raíz sepa cómo acceder a ellos.
+
+1. Dentro de la app (comentarios) creamos un archivo urls.py
+2. Copiamos la estructura de la url.py general (modularizacion) y la dejamos limpia
+3. Creamos una ruta de prueba, importamos views y creamos una vista junto con el template, solo un hola mundo para comprobar que el circuito funciona bien
+4. Para que nuestro directrio general pueda leer las urls de las app, debemos hacer:
+	- Importar la librería include: from django.urls import path, include
+	- Crear el path de la carpeta de la app junto con el include:
+		path('comments/', include('commentarios.urls')),
 
 
 

@@ -1,6 +1,6 @@
 from django.db import models
 
-class comments (models.Model):
+class Comment (models.Model):
 
     name = models.CharField(max_length=255, null=False)
     score = models.IntegerField(default=3)
