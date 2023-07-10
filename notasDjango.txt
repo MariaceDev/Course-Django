@@ -368,7 +368,7 @@ Comenzmos por el ejemplo más sencillo: un comentarios.
 
 Trabjanmos con MODELS: cada modelo es una clase y empezamos por una:
 
-	class comments (models.Model):
+	class Comment (models.Model): #Por convención, los nombres de las clases empiezan en mayúscula y van en singular
 
    		 def __str__(self):
       		  return
@@ -376,7 +376,7 @@ Trabjanmos con MODELS: cada modelo es una clase y empezamos por una:
 Cuando migremos esto, django detectará la clase comments y creará una tabla en la DB.
 Ejemplo:
 
-	class comments (models.Model):
+	class Comment (models.Model):
 
     		name = models.CharField(max_length=255, null=False)
     		score = models.IntegerField(default=3)
@@ -416,7 +416,38 @@ Una buena práctica es que cada aplicación contenga sus propias urls y hacer qu
 4. Para que nuestro directrio general pueda leer las urls de las app, debemos hacer:
 	- Importar la librería include: from django.urls import path, include
 	- Crear el path de la carpeta de la app junto con el include:
-		path('comments/', include('commentarios.urls')),
+		path('Comment/', include('commentarios.urls')),
+
+3.4. CREACIÓN Y BORRADO DE DATOS
+
+1. Creamos una ruta y una vista con el nombre create
+2. En la vista importamos el modelo Comment que habíamos creado
+3. En la vista, dentro de la función, creamos un objeto:
+	 comment = Comment(name:'Manuela', score:5, comment: 'Este es un comentario')
+4. Lo guardamos en la DB:
+	comment.save()
+
+5. Otra manera de crear sin el save, se guarda de manera automática:
+	comment = Comment.objects.create(name='Mina')
+6. Cuando creamos, para ejecutar la llamada debemos RECARGAR la página
+
+7. Para borrar hacemos un path nuevo y la vista:
+	path('delete', views.delete, name='delete'),
+
+8. Para borrar un objeto primero debemos encontrarlo:
+	def delete (request):
+    		comment = Comment.objects.get(id=1) #Para encontarlo
+    		comment.delete() #Para borrarlo
+
+    		return HttpResponse('Ruta para probar los borrados')
+
+9. Otra manera de hacer borrados es con los filters. Directamente, sin instancia:
+	Comment.objects.filter(id=4).delete()
+
+
+
+
+
 
 
 
