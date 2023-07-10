@@ -500,7 +500,32 @@ Creamos un nuevo proyecto:
 	4. Comprobamos que se ha creado la DB
 
 
+3.6. SEEDING Y PAQUETES
+
+Ahora, poblaremos una base de datos con un factoring que nos permite intrpducir datos falsos de prueba (faking) para poder hacer consultas y ver cómo funciona la app 	
+
+1. Hacemos la carga del paquete de forma externa. En Github podemos ver las intrucciones de instalación de django seed, que son:
+
+	- pip install django-seed #si hubiera problemas en la instalación por colisión con diferentes versiones de Django, podemos poner delante de la instrucció  la pabara "python"
+	- En setting.py colocamos la app:
+		INSTALLED_APPS = [
+    			...
+    			'django_seed',
+		]
+	- Comprobamos que está instalada:
+		python manage.py check django_seed
+
+2. Poblamos la DB según las instrucciones del readme de la app en Github:
+	-python manage.py seed api --number=15 #Donde api es el nombre de la app y el number el número de registros que queremos introducir
 	
+   Nos encontramos con un problema, porque no encuentra el módulo 'psycopg2' y miramos en Github la solución  en el apartado issues y hay otra persona con el mismo problema que recomienda esto:
+	pip install psycopg2-binary
+
+   Volvemos a ejecutar la instrucción anterior:
+	python manage.py seed post --number=50
+
+
+
 
 
 
