@@ -447,6 +447,62 @@ Una buena práctica es que cada aplicación contenga sus propias urls y hacer qu
 
 3.5. ESTRUCTURA Y CLAVES FORÁNEAS
 
+Creamos un nuevo proyecto:
+
+1. django-admin startproject my_blog
+
+2. Una nueva app dentro del proyecto: 
+	python manage.py startapp post
+
+3. Metemos la app dentro del setting-py, en INSTALLED_APP = ['post']
+
+4. Comprobamos que se ha creado de manera correcta:
+	python manage.py check post
+	System check identified no issues (0 silenced).
+
+5. En la aplicación de post creamos el urls.py
+
+6. Creamos la url para la app post y así delegar las rutas de post a su archivo urls.py
+	from django.urls import path, include #Este include hay que escrbirlo
+	path('post/', include('post.urls'))
+
+7. Definimos el archivo urls.py de la app post que, de momento, dejamos vacío (hay que crearlo dentro del directorio de la app):
+	from django.urls import path
+
+	urlpatterns = [
+	]
+
+8. Definimos los modelos creando una clase por cada uno de los modelos:
+
+	1. Clase autor:
+		class Author(models.Model):
+    			name = models.Charfield(max_length=200)
+    			email = models.EmailField()
+
+    			def __str__(self):
+        			return self.name
+
+	2. Clase para las entradas en el blog que relacionamos con el autor gracias a la foreing key:
+		class Entry (models.Model):
+    			author = models.ForeignKey(Author, on_delete=models.CASCADE) #Declaramos la clave foránea y l decimos que, si borramos al autor, se borren también los post para conservar la integridad de los datos
+    			headline = models.CharField(max_length=255)
+    			body_text = models.TextField()
+    			public_date = models.DateTimeField(default = date.today())
+    			rating = models.IntegerField(default=5)
+
+    			def __str__(self):
+        			return self.headline
+
+	3. Migramos los datos:
+		- python manage.py makemigrtions
+		- pythin manage.py migrate
+
+	4. Comprobamos que se ha creado la DB
+
+
+	
+
+
 
 
 
