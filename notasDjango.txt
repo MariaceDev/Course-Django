@@ -445,7 +445,7 @@ Una buena práctica es que cada aplicación contenga sus propias urls y hacer qu
 	Comment.objects.filter(id=4).delete()
 
 
-
+3.5. ESTRUCTURA Y CLAVES FORÁNEAS
 
 
 
