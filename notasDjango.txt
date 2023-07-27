@@ -524,6 +524,91 @@ Ahora, poblaremos una base de datos con un factoring que nos permite intrpducir 
    Volvemos a ejecutar la instrucción anterior:
 	python manage.py seed post --number=50
 
+3.7. CONSULTA DE DATOS I
+
+Vamos a la aplicación Post y trabajamos la vista que va a generar la consulta:
+
+1. Creamos la ruta y la asociamos a a la vista:
+	- En el urls.py: path('queries/', views.queries, name="queries")
+	- En views.py: 
+		1. importamos 'from django.http import HttpResponse' para usar las respuestas HTTP ya que vamos a estar trabajando directamente las consultas, no vamos a renderizarlas en un template
+		2. Creamos la función: 
+			def queries (request):
+    				return HttpResponse("Consulta realizada")
+
+2. Realizamos las consultas:
+
+-Primero entramos en el proyecto (cd my_blog), comprobamos que hemos hecho todas las migraciones (python manage.py migrate) y levantamos el servidor (python manage.py runserver)
+- Generamos el template para visualizar los datos:
+	1. Creamos la carpeta 'templates' y dentro otra llamada 'post' donde generamos la vista queries.html
+	2. En settings.py especificamos los datos:
+		  'DIRS': ['templates']
+	3. Creamos estructura de html5 y dejamos prepardo para visualizar los datos
+- Empezamos a generar las vistas en views:
+	1. Importamos los modelos que necesitaremos y quitamos el httpresponse:
+		from .models import Author, Entry
+	2. Redefinimos la función y comenzamos a hacer consultas:
+		
+		def queries (request):
+    			# Obtener todos los elementos
+    			authors = Author.objects.all()
+
+    			# Obtener datos filtrados por condición
+    			filtered = Author.objects.filter(email='aprilcontreras@example.org')
+
+    			# Obtener un único objeto (filtrado)
+    			author = Author.objects.get(id=1)
+
+    			# Obtener los 10 primeros elementos
+    			limits = Author.objects.all()[:10]
+
+    			# Obtener 10 elemetos saltando los 5 primeros
+    			offsets = Author.objects.all()[5:10] 
+  
+    				return render(request, 'post/queries.html', {'authors': authors, 'filtered': filtered, 'author': author, 'limits': limits, 'offsets':  offsets})
+
+	3. Lo pintamos en el HTML para que se muestre el resultado:
+
+	<body>
+        <h3>Busqueda limitada y con offset</h3>
+        <ul>
+            {% for offset in offsets %}
+                <li>{{ offset.email }}</li>
+            {% endfor %}
+        </ul>
+
+
+        <h3>Obteniendo los 10 primeros (limit)</h3>
+            <ul>
+                {% for limit in limits %}
+                    <li>{{ limit.email }}</li>
+                {% endfor %}
+            </ul>
+
+        <h3>Obteniendo un único elemento (filtrado por id)</h3>
+            <p>{{author}}</p>
+
+        <h3>Buscando autor donde email =  aprilcontreras@example.org</h3>
+            <ul>
+                {% for elm in filtered %}
+                    <li>{{elm.name}} | {{elm.email}}</li>
+                {% endfor %}
+            </ul>
+
+        <h3>Todos los autores</h3>
+            <ul>
+                {% for author in authors%}
+                    <li>{{author.name}} ( {{author.email}})</li>
+                {% endfor %}
+            </ul>
+        <h3>Total autores: {{ authors|length }}</h3>
+        
+    </body>
+
+	
+
+		
+
 
 
 

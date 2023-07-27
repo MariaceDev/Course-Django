@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device, initial-scale=1">
+        <title>Queries</title>
+    </head>
+
+    <body>
+        <h3>Busqueda limitada y con offset</h3>
+        <ul>
+            {% for offset in offsets %}
+                <li>{{ offset.email }}</li>
+            {% endfor %}
+        </ul>
+
+
+        <h3>Obteniendo los 10 primeros (limit)</h3>
+            <ul>
+                {% for limit in limits %}
+                    <li>{{ limit.email }}</li>
+                {% endfor %}
+            </ul>
+
+        <h3>Obteniendo un único elemento (filtrado por id)</h3>
+            <p>{{author}}</p>
+
+        <h3>Buscando autor donde email =  aprilcontreras@example.org</h3>
+            <ul>
+                {% for elm in filtered %}
+                    <li>{{elm.name}} | {{elm.email}}</li>
+                {% endfor %}
+            </ul>
+
+        <h3>Todos los autores</h3>
+            <ul>
+                {% for author in authors%}
+                    <li>{{author.name}} ( {{author.email}})</li>
+                {% endfor %}
+            </ul>
+        <h3>Total autores: {{ authors|length }}</h3>
+        
+    </body>
+</html>
