@@ -644,6 +644,21 @@ Vamos a la aplicación Post y trabajamos la vista que va a generar la consulta:
     </body>
 
 	
+25. ACTUALIZACIÓN DE DATOS
+
+Una actualización de datos es tomar el objeto, realizar los cambios y volver a guardarlo.
+Crearemos una nueva url controlada por una vista que va a realizar una actualización. DEntro de post:
+	path('update/', views.updat, name="update")
+
+Y para la vista creamos la función update:
+
+	def update(request):
+    		author = Author.objects.get(id=1) #Primero obtenemos el objeto
+    		author.name = "Manuela" #Cambiamos el nombre
+    		author.email = "manuela@demo.com" #Cambiamos el mail
+    		author.save() #Guardamos
+    		return HttpResponse("Modificado")
+	
 
 		
 

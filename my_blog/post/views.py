@@ -1,5 +1,13 @@
 from django.shortcuts import render
 from .models import Author, Entry
+from django.http import HttpResponse
+
+def update(request):
+    author = Author.objects.get(id=1) #Primero obtenemos el objeto
+    author.name = "Manuela" #Cambiamos el nombre
+    author.email = "manuela@demo.com" #Cambiamos el mail
+    author.save() #Guardamos
+    return HttpResponse("Modificado")
 
 def queries (request):
     # Obtener todos los elementos
@@ -28,3 +36,5 @@ def queries (request):
     contains = Author.objects.filter(name__contains='yes')
   
     return render(request, 'post/queries.html', {'authors': authors, 'filtered': filtered, 'author': author, 'limits': limits, 'offsets':  offsets, 'orders': orders, 'filtereds2': filtereds2, 'contains': contains})
+
+
