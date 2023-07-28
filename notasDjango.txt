@@ -658,6 +658,84 @@ Y para la vista creamos la función update:
     		author.email = "manuela@demo.com" #Cambiamos el mail
     		author.save() #Guardamos
     		return HttpResponse("Modificado")
+
+26. RELACIONES 1 A 1
+
+- Creamos un nuevo proyecto llamado "relations" junto con una app "onetoone".
+
+- En este ejemplo vamos a establecer una relación entre lugares y restaurantes, que tendrán una relación 1 a 1.
+
+	1. Añadimos la app en el setting.py y comprobamos que se ha instalado correctamente con el check
+	2. Delegamos las rutas en urls.py > urlpattern: path('one/', include('onetoone.urls'))
+	3. Creamos el archivo urls.py en la app onetoone que se encarga de hacer la gestión junto con su estructura:
+
+		from django.urls import path, include
+
+		urlpatterns = [
+   
+		]
+
+	4. Migramos la estructura principal: python manage.py migrate
+	5. Levantamos el servidor para comprobar que todo ha ido bien: python manage.py runserver
+
+- Comenzamos con el modelado de datos en el archivo models.py:
+
+from django.db import models
+
+class Place(models.Model):
+    name = models.CharField(max_length=50)
+    address = models.CharField(max_length=80)
+
+    def __str__(self):
+        return self.name
+    
+class Restaurant (models.Model):
+    place = models.OneToOneField(Place, on_delete=models.CASCADE, primary_key=True)
+    number_employees = models.IntegerField(default=1)
+
+    def __str__(self):
+        return self.place.name #cuando relacionamos las clases, podemos acceder a la información (atributos, métodos) de esas clases. Es una forma sencilla de relacionar los modelos
+
+
+- Creamos un nuevo path:
+	 path ('create/', views.create, name='create')
+
+- Definimos la función en la vista:
+	from django.shortcuts import render
+	from django.http import HttpResponse
+
+	def create(request):
+    		return HttpResponse("Datos creados")
+
+- Hacemos la migración de la información del modelo:
+	python manage.py makemigrations (crea los modelos)
+	python manage.py migrate (migra l ainformación)
+
+- Creamos los diferentes elementos a través de objetos:
+
+	1. En el archivo views.py importamos los modelos:
+		from models import Place, Restaurant
+	2. Creamos los modelos con sus atributos y relacionamos el restaurante con el lugar (place=place): #Esto también se puede hacer con Place.objets
+
+		def create(request):
+    			place = Place(name="Lugar 1", address="Calle Demo")
+    			place.save()
+
+    			restaurant = Restaurant(place=place, number_employees=8)
+    			restaurant.save()
+
+   			return HttpResponse(restaurant.place.name)
+	Levantamos el servidor para comprobar que funciona correctamente.
+	Comprobamos la DDBB y vemos que se ha introducido el registro y que, en Restaurant, aparece una primary key con un id que la relaciona con un Place.
+
+
+
+
+
+
+
+
+
 	
 
 		
