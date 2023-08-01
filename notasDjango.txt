@@ -793,6 +793,96 @@ class Article (models.Model):
 
 	return HttpResponse(result3)
 
+27. RELACIONES MUCHOS A MUCHOS
+
+- Creamos una nueva aplicación.
+
+El ejemplo será: un articulo puede estar en muchas publicaciones y una publicación va a poder encontrarsse en muchos artículos.
+
+- Modelamos los datos:
+
+** Para delcarar las relaciones many to many solo hace falta indicarlo en una clase, en este caso en la clase Article
+
+from django.db import models
+
+class Publication(models.Model):
+    title = models.CharField(max_length=30)
+
+    def __str__(self):
+        return self.title
+    
+
+
+class Article(models.Model): #Como trabajamos en aplicaciones autocontenidas, no nos va a dar ningún problema que ya tengamos una clase Article en otra aplicación
+    headline = models.CharField(max_length=100)
+    publicacions = models.ManyToManyField(Publication) #Para definir el many to many, no hace falta el delete porque e crea una tabla a parte
+    
+    def __str__(self):
+        return self.headline
+
+- Trabajamos con los datos en la vista:
+from django.shortcuts import render
+from django.http import HttpResponse
+
+def create (request):
+    return HttpResponse("...")
+
+- Migramos los modelos
+
+- Definimos la vista:
+**Para poder relacionar de muchos a muchos es muy importante debemos guardar primero los dos elementos que vamos a relacionar
+
+from django.shortcuts import render
+from django.http import HttpResponse
+from .models import Article, Publication
+
+def create (request):
+    art1 = Article(headline="Primera parte: Los modelos de lenguaje")
+    art1.save()
+    art2 = Article(headline="Segunda parte: Los modelos de lenguaje")
+    art2.save()
+    art3 = Article(headline="Tercera parte:Los modelos de lenguaje")
+    art3.save()
+    
+    pub1 = Publication (title="Primera publicación")
+    pub1.save()
+    pub2 = Publication (title="Segunda publicación")
+    pub2.save()
+    pub3 = Publication (title="Tercera publicación")
+    pub3.save()
+    pub4 = Publication (title="Cuarta publicación")
+    pub4.save()
+    pub5 = Publication (title="Quinta publicación")
+    pub5.save(9)
+    pub6 = Publication (title="Sexta publicación")
+    pub6.save()
+    pub7 = Publication (title="Séptima publicación")
+    pub7.save()
+
+    #Relacionamos ambas clases
+
+    art1.publicacions.add(pub1)
+    art1.publicacions.add(pub2)
+    art1.publicacions.add(pub3)
+    art2.publicacions.add(pub4)
+    art2.publicacions.add(pub5)
+    art3.publicacions.add(pub6)
+    art3.publicacions.add(pub7)
+    
+
+    return HttpResponse("...")
+
+- Trabajamos con los datos:
+
+ 	pub1 = Publication.objects.get(id=1)
+    	result = pub1.article_set.all()
+	art1.publicacions.remove(pub1) #Para eliminar relaciones
+
+
+
+
+
+
 
 
 
