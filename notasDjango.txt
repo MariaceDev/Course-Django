@@ -644,7 +644,7 @@ Vamos a la aplicación Post y trabajamos la vista que va a generar la consulta:
     </body>
 
 	
-25. ACTUALIZACIÓN DE DATOS
+24. ACTUALIZACIÓN DE DATOS
 
 Una actualización de datos es tomar el objeto, realizar los cambios y volver a guardarlo.
 Crearemos una nueva url controlada por una vista que va a realizar una actualización. DEntro de post:
@@ -659,7 +659,7 @@ Y para la vista creamos la función update:
     		author.save() #Guardamos
     		return HttpResponse("Modificado")
 
-26. RELACIONES 1 A 1
+25. RELACIONES 1 A 1
 
 - Creamos un nuevo proyecto llamado "relations" junto con una app "onetoone".
 
@@ -727,6 +727,72 @@ class Restaurant (models.Model):
    			return HttpResponse(restaurant.place.name)
 	Levantamos el servidor para comprobar que funciona correctamente.
 	Comprobamos la DDBB y vemos que se ha introducido el registro y que, en Restaurant, aparece una primary key con un id que la relaciona con un Place.
+
+
+
+26. RELACIONES MUCHOS A 1
+
+Un elemento puede tener muchos de otro, pero ese otro solo puede tener uno del anterior. Realizamos una práctica con Reportero y Artículos.
+
+- Dentro del proyecto relations, creamos una nueva aplicación many to one:
+	python manage.py startapp manytoone
+
+- Damos de alta la aplicación en el settings.py de relations y comprobamos la correcta instalación con check
+- Delegamos los path con include: path('many/', include('manytoone.urls')) y creamos el urls.py en la app nueva
+- Procedemos al modelado de datos:
+
+from django.db import models
+
+class Reporter (models.Model):
+    first_name = models.CharField(max_length=30)
+    last_name = models.CharField(max_length=30)
+    email = models.EmailField()
+
+    def __str__(self):
+        return self.email
+    
+
+class Article (models.Model):
+    headline = models.CharField(max_length=100)
+    pub_date = models.DateField()
+    reporter = models.ForeignKey(Reporter, on_delete=models.CASCADE)
+
+    def __str__(self):
+        return self.headline
+
+
+- Debemos migrar el cambio en los modelos:
+	python manage.py makemigrations
+	python manage.py migrate
+
+- Empezamos a trabajar la vista:
+	1. Importamos los modelos creados: from .models import Reporter, Article
+	2. Creamos un artículo y un reportero:
+		from .models import Reporter, Article
+		from datetime import date
+
+		def  create(request):
+    		  rep = Reporter(first_name='Mina', last_name='Repiso', email='mina@demo.com')
+    		  rep.save()
+
+    		  art1 = Article(headline='Los modelos de lenguaje', pub_date = date(2023,1,8), reporter=rep)
+    		  art1.save()
+    		  art2 = Article(headline='Machine learning', pub_date = date(2023,2,8), reporter=rep)
+    		  art2.save()
+    		  art3 = Article(headline='Frame para metáforas ontológicas', pub_date = date(2023,3,8), reporter=rep)
+    		  art3.save()
+
+    		return HttpResponse("Creado")
+
+	3. Creamos un elemento de query y a hacer consultas sobre todo:
+
+	result = art1.reporter.first_name
+    	result1 = rep.article_set.all() #nombre del article y set, después todo igual que en las consultas
+    	result2 = rep.article_set.filter(headline='Los modelos de lenguaje')
+    	result3 = rep.article_set.count()
+
+	return HttpResponse(result3)
+
 
 
 
