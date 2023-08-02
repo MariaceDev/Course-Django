@@ -880,6 +880,15 @@ def create (request):
 
 
 
+28. CONEXIÓN CON POSTGRESQL
+
+En la documentación vienen todos los requerimientos de las DDBB: 
+
+1. Creamos un nuevo proyecto
+2. Nos descargamos la última versión de PostgreSQL
+	- Creamos una DDBB vacía que luego conectaremos con DJango
+	- Para conectar usamos los parámetros indicados en la documentación dentro del setting, cambiando a nuestros datos.
+	- Hacemos una migración para comprobar que se ha creado bien. Podemos mirar que se han creado las tablas. 
 
 
 
