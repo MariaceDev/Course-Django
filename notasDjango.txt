@@ -888,7 +888,22 @@ En la documentación vienen todos los requerimientos de las DDBB:
 2. Nos descargamos la última versión de PostgreSQL
 	- Creamos una DDBB vacía que luego conectaremos con DJango
 	- Para conectar usamos los parámetros indicados en la documentación dentro del setting, cambiando a nuestros datos.
-	- Hacemos una migración para comprobar que se ha creado bien. Podemos mirar que se han creado las tablas. 
+	- Hacemos una migración para comprobar que se ha creado bien. Podemos mirar que se han creado las tablas.
+
+29. PRÁCTICA MODELO DE DATOS: DISEÑO
+
+Somos un desarrollador backend qie trabaja en un software de gestión de una multinacional.
+Nos solicitan que crear una app en Django que debe hacer los siguiente:
+	- Llevar un control de los empleados: nombre, dni, email, dirección, puesto de trabajo y la ubicación (localización de la frábrica en la que trabaja).
+	- Su puesto de trabajo tenrá: el cargo, descripción del cargo y salario asociado.
+	- El salario pueden pertener a uno o diferentes puestos de trabajo, incluirán siempre el bruto anual y si tienen asociada una paga extra en diciembre y junio.
+	- Las ubicaciones (fábricas en las que pueden trabajar) vamos a registrar el nombre, la ubicación, el código postal y la pobración. Estarán agrupadas por país.
+
+- Creamos un diagrama entidad relaciñon y formalizar las tablas en su tercera forma normal.
+
+30. PRÁCTICA MODELADO DE DATOS: CODIFICACIÓN
+
+ 
 
 
 
