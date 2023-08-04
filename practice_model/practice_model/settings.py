@@ -8,7 +8,7 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 # See https://docs.djangoproject.com/en/4.2/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = 'django-insecure-btsdanh!za#(&i3%d9g&w18h2h%4kb9d7q2x@ti_i@n7^7#&p8'
+SECRET_KEY = 'django-insecure-3&px3zbjmc!wli!aukdiq!-3j@(xn1xjhb0#&nm+1=77m3k=$5'
 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
@@ -25,6 +25,7 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    'company',
 ]
 
 MIDDLEWARE = [
@@ -37,7 +38,7 @@ MIDDLEWARE = [
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
 ]
 
-ROOT_URLCONF = 'postgres_project.urls'
+ROOT_URLCONF = 'practice_model.urls'
 
 TEMPLATES = [
     {
@@ -55,7 +56,7 @@ TEMPLATES = [
     },
 ]
 
-WSGI_APPLICATION = 'postgres_project.wsgi.application'
+WSGI_APPLICATION = 'practice_model.wsgi.application'
 
 
 # Database
@@ -64,7 +65,7 @@ WSGI_APPLICATION = 'postgres_project.wsgi.application'
 DATABASES = {
     "default": {
         "ENGINE": "django.db.backends.postgresql",
-        "NAME": "django_sample",
+        "NAME": "company",
         "USER": "postgres",
         "PASSWORD": "",
         "HOST": "127.0.0.1",

@@ -887,7 +887,20 @@ En la documentación vienen todos los requerimientos de las DDBB:
 1. Creamos un nuevo proyecto
 2. Nos descargamos la última versión de PostgreSQL
 	- Creamos una DDBB vacía que luego conectaremos con DJango
-	- Para conectar usamos los parámetros indicados en la documentación dentro del setting, cambiando a nuestros datos.
+	- Para conectar usamos los parámetros indicados en la documentación dentro del setting, cambiando a nuestros datos:
+
+		
+DATABASES = {
+    "default": {
+        "ENGINE": "django.db.backends.postgresql",
+        "NAME": "django_sample",
+        "USER": "postgres",
+        "PASSWORD": "django_sample",
+        "HOST": "127.0.0.1",
+        "PORT": "5432",
+    }
+}
+
 	- Hacemos una migración para comprobar que se ha creado bien. Podemos mirar que se han creado las tablas.
 
 29. PRÁCTICA MODELO DE DATOS: DISEÑO
@@ -902,6 +915,84 @@ Nos solicitan que crear una app en Django que debe hacer los siguiente:
 - Creamos un diagrama entidad relaciñon y formalizar las tablas en su tercera forma normal.
 
 30. PRÁCTICA MODELADO DE DATOS: CODIFICACIÓN
+
+Creamos un nuevo proyecto llamado 'practice_model' y, dentro, una app llamada 'company'.
+
+Comenzamos con el modelado de la DDBB:
+
+	1. Introducir postgres en el DATABASES del setting.py:
+
+DATABASES = {
+    "default": {
+        "ENGINE": "django.db.backends.postgresql",
+        "NAME": "company",
+        "USER": "postgres",
+        "PASSWORD": "",
+        "HOST": "127.0.0.1",
+        "PORT": "5432",
+    }
+}
+
+	2. Hacemos un migrate para comprobar que funciona y que se crean las tablas en la DB.
+	3. Comenzamos el modelado en el archivo models.py junto con las foreing keys:
+
+class Salary(models.Model):
+    amount = models.IntegerField(blank=False, null=False)
+    extra_jun = models.BooleanField(default=False)
+    extra_dic = models.BooleanField(default=False)
+
+    def __str__(self):
+        return self.amount
+
+class Job(models.Model):
+    title = models.CharField(max_length=15, blank=False, null=False)
+    description = models.TextFieldField(blank=False, null=False)
+    salary = models.ForeignKey(Salary, on_delete=models.CASCADE)
+
+    def __str__(self):
+        return self.title
+    
+    
+class Country(models.Model):
+    name = models.CharField(max_length=15, blank=False, null=False)
+    country_code = models.CharField(max_length=6, blank=False, null=False)
+
+    def __str__(self):
+        return self.name
+
+    
+class Location(models.Model):
+    name = models.CharField(max_length=30, blank=False, null=False)
+    country = models.ForeignKey(Country, on_delete=models.CASCADE)
+    
+    def __str__(self):
+        return self.name
+    
+class Place(models.Model):
+    name = models.CharField(max_length=30, blank=False, null=False)
+    address = models.CharField(max_length=50, blank=False, null=False)
+    zip_code = models.CharField(max_length=5, blank=False, null=False)
+    location = models.ForeignKey(Location, on_delete=models.CASCADE)
+
+    def __str__(self):
+        return self.name
+
+class Employee(models.Model):
+    id_numbrer = models.CharField(max_length=10, blank=False, null=False)
+    name = models.CharField(max_length=30, blank=False, null=False)
+    last_name = models.CharField(max_length=30, blank=False, null=False)
+    email = models.EmailField(max_length=30, blank=False, null=False)
+    address = models.CharField(max_length=50, blank=False, null=False)
+    job = models.ForeignKey(Job, on_delete=models.CASCADE)
+    place = models.ForeignKey(Place, on_delete=models.CASCADE)
+
+    def __str__(self):
+        return self.name
+
+	4. Introducimos un makemigration y, en el recién creado initial.py, aparece la migración
+	5. Introducimos un migrate y se migra a la DDBB.
+
+	
 
  
 
