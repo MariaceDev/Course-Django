@@ -994,10 +994,28 @@ class Employee(models.Model):
 
 	
 
- 
+
+31. FORMULARIO HTML: GET
+
+Sirven los formularios HTML y los modelos que ofrece python. Es importante aislar los formaularios para que el código sea limpio y fácil de mantener.
+
+1. Construimos un nuevo proyecto
+2. Hacemos un migrate, porque vamos a trabajar sobre la misma carpeta que se ha creado con el proyecto.
+3. Creamos un nuevo path en urls.py: path('form/', views.form, name='form')
+4. Creamos el archivo views.py y dentro su función junto con la importación de render:
+
+from django.shortcuts import render
+
+def form(request):
+    return render(request, 'form.html', {})
+
+5. Creamos una nueva carpeta llamada template y, dentro, el form.html
+6. En el archivo setting.py incluimos la carpeta template:  'DIRS': ['templates']
 
 
 
+
+	
 
 
 
