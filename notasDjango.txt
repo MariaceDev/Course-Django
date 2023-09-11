@@ -1055,10 +1055,64 @@ def form(request):
 	3.- Hacemos uso de la variable en success.html:  <h1>Gracias por la información, {{name}}</h1>
 
 
+32. FORMULARIO HTML: POST
 
+Primero, reestructuramos las urls y le cambiamos el nombre:
 
+ 	path('get/form/', views.getform, name='form'),
+    path('get/goal/', views.getgoal, name='goal')
 
+También cambiamos la vista: getForm y getGoal, los nomres de las funciones
 
+1. Creamos una estructura para poder visualizar el formulario escrito a través de post:
+
+	1º.- Creamos el path: 
+		path ('post/form/', views.postForm, name= 'postGoal'),
+    	path ('post/goal/', views.postGoal, name= 'postGoal')
+	
+	2ª.- Declaramos las vistas: 
+
+			def postForm(request):
+    			return HttpResponse ("En construcción...")
+
+			def postGoal(request):
+    			return HttpResponse("En construcción...")
+	
+	3º.- Realizamos los templates:
+		·Creamos un html para goal y otro para succes.
+		·Creamos un html dentro de la carpeta forms que se llamará 'create.html'
+	
+	4º.- Comprobamos que todo va bien levantando el servidor.
+
+	5º.- Definimos bien las funciones incorporando el método render para mejorar la visualización
+
+2. Realizamos el formulario en POST, dentro del archivo create.html:
+
+	· Creamos el formulario con una acción ({% url 'postGoal' %}) y un método (POST)
+	· En la vista de postGoal indicamos el método que va a estar utilizando la url. Lo haremos a través de una estructura de guarda:
+
+3. Al definir la vista como lo habíamos hecho con el método Get nos da el error Forbiden (403): Cross Site Request Forgery, or when Django’s CSRF mechanism has not been used correctly.
+El profesor lo explica de la siguiente manera:
+
+	El error que no se está referenciando es el error del ataque crossating o el error bfsrf:
+	dentro de las niveles de seguridad no solo adaptados por Django sino por casi todos los las 
+	estructuras y los patrones de arquitectura de MVC y MTV y al final por cada framework que 
+	incorpora una seguridad básica dentro de su desarrollo necesita hacer una protección contra
+	el robo de  sesiones.
+	Para ello se utiliza la protección de csrf y se hace a través de un token que envía el sitio, 
+	nuestro sitio a la petición del servidor para verificar que la información se está enviando 
+	desde el formulario que se debe enviar.
+	Tiene una implementación muy sencilla y es otra de las ventajas que tiene Django que tienen 
+	este tipo de frameworks Y es que nos incorporan la seguridad y no solo nos la incorporan sino 
+	que cuando estamos usándola nos van a forzar a trabajar con ella de tal forma que vamos a evitar
+	muchos problemas futuros.
+	Al final lo que estamos haciendo es enviar un token en cada uno de nuestras de nuestras solicitudes 
+	que nos va a ayudar a autenticarnos y En definitiva va a ayudar a la parte de servidor de Django a 
+	saber que la información está siendo enviada por efectivamente quién debe enviarla.
+	Lo único que tenemos que hacer es incorporar un parámetro dentro de los elementos que vamos a estar 
+	enviando que es el  {% csrf_token %} y esto simplemente lo podemos inyectar con cs rf toquen, así tal cual, 
+	así nuestra plantilla ya va a hacer el envío y, gracias a dicho envío, vamos a Añadir esa capa de   
+	seguridad necesaria en nuestro sistema.
 
 
 
