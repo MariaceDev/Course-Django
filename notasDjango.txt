@@ -997,6 +997,8 @@ class Employee(models.Model):
 
 31. FORMULARIO HTML: GET
 
+Hay dos maneras de crear formularios: tal como lo hacemos en HTML y los modelos de formularios que ofrece Django (el profesor prefiere los modelos)
+
 Sirven los formularios HTML y los modelos que ofrece python. Es importante aislar los formaularios para que el código sea limpio y fácil de mantener.
 
 1. Construimos un nuevo proyecto
@@ -1011,6 +1013,52 @@ def form(request):
 
 5. Creamos una nueva carpeta llamada template y, dentro, el form.html
 6. En el archivo setting.py incluimos la carpeta template:  'DIRS': ['templates']
+7. Levantamos el servidor y comprobamos que funciona: "python manage.py runserver".
+8. Construmos los formularios, por convención en Django están aislados en su propia carpeta:
+		- Creamos una carpeta nueva dentro de template llamada "forms"
+		- Creamos dentro un html llamado contact que será donde crearemos el formulario
+		- Lo incluimos en el html form : {% include 'forms/contact.html' %}
+		- En el formulario escribirmos el método Post y la ruta, que la pondremos directamente en el urls.py, para una práctica limpia: 
+			· En el urls.py: path('goal/', views.goal, name='goal')
+			· En la views.py : 
+				def goal(request):
+    			return render(request, 'form.html', {})
+			· En el contact.html: <form action="{% url 'goal' %}" method="GET">
+	
+	Ahora tenemos un formulario que, al pulsar en el botón enviar, enviará un nombre y un comentario a través del método get.
+	Esta información será enviada a la url goal que recepcionaraá los datos en la request y trabajará los datos en su vista realizando las acciones necesarias.
+	Posteriormente devolverá al usuario la respuesta correspondiente. Para ello creamos otra vista:
+		- Creamos una vista nueva llamada success y su success.html dentro de la carpeta templates:
+			def goal(request):
+    		return render(request, 'success.html', {})
+
+9. Comenzamos a trabajar la vista goal:
+
+	1.- Primer ejemplo:
+
+			def goal(request):
+
+			if request.method == 'GET':
+				return render(request, 'success.html', {})
+
+			else:
+				return HttpResponse("El método POST no está soportado para esta ruta")
+	
+	2.- Segundo ejemplo con una estructura de guarda (como usamos un return no vamos a necesitar el else):
+			def goal(request):
+				if request.method != 'GET':
+					return HttpResponse("El método POST no está soportado para esta ruta")
+				
+				name = request.GET['name'] #Creamos una variable name, accedemos a get y, dentro de get accedemos al elemento name del formulario y se lo pasamos al contexto en nuestra vista.
+				return render(request, 'success.html', {'name': name})
+	
+	3.- Hacemos uso de la variable en success.html:  <h1>Gracias por la información, {{name}}</h1>
+
+
+
+
+
+
 
 
 
