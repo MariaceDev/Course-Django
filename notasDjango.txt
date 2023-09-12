@@ -1114,14 +1114,61 @@ El profesor lo explica de la siguiente manera:
 	así nuestra plantilla ya va a hacer el envío y, gracias a dicho envío, vamos a Añadir esa capa de   
 	seguridad necesaria en nuestro sistema.
 
+33. FORMULARIOS A TRAVÉS DE CLASES
 
+FORMULARIO DESDE LA CLASE FOR
 
-
+1. Nuevo proyecto form_django
+2. Generamos una url que vamos a gestionar a través de una vista que creamos (views.py)
+3. En settings.py creamos unos templates para poder visualizar el renderizado de los formularios ( 'DIRS': ['templates'],) y creamos la carpeta tempates
+4. En la carpeta 'templates' genera,mos un form.html y le damos una estructura básica
+5. En views.py importamos render: from django.shortcuts import render para poder visualizar nuestra platilla
+6. Hacemos la migración y levantamos el servidor
 	
+Hacemos el formulario a través de formularios de django a través de clase, definiendo qué tiene cada formulario, luego lo pasamos por contexto para que lo pinte.
 
+1. Creamos una rchivo que se llame forms.py, que será donde definiremos las clases que serán los formularios.
+2. Importamos la clase de formularios: from django import forms
+3. Creamos una clase por cada formulario, en nuestro caso solo uno para crear comentarios:
+	class CommentForm(forms.Form):
+		name = forms.CharField(label="Escribe tu nombre")
+		url = forms.URLField(label="Tu sitio web", required=False)
+		comment = forms.CharField()
+4. La vista tiene que renderizar el formulario, por lo que vamos a form.html para pintarlo:
+	. En views importamos el comentario: from .forms import CommentForm
+	· Creamos una variable a la que asignamos el CommentForm y lo pasamos al contexto para renderizar
+			def form(request):
+    			comment_form = Comment_form()
+    			return render(request, 'form.html', {'comment_form': comment_form})
+	· Por último, en forms.py añadimos: {{ comment_form }} para pintar el formulario.
+5. Levantamos elservidor y el formulario está listo.
 
+6. Podemos especificar si, en el momento en que estamos pintando el form, queremos que encerrar los campor en algun tipo de contenido. Por ejemplo:
+	· {{ comment_form.as_p }}: en el formulario, cada campo se muestra en un línea distinta
+	· {{ comment_form.as_table }}: se organiza el contenido como una tabla
+Esto son solo cambios semánticos, no estéticos, pues estos se realizan con widgets.
 
+7. Comprobamos que estamos recibiendo correctamente la información, para ello:
+	· Generamos una ruta:  path('goal/', views.goal, name="goal") que recepcionará la información
+	· En la plantilla el formulario enviará la información a la url:  <form action="{% url 'goal' %}">
+	· Incluimos el method en el formulario, get o post
+	· Definimos la vista goal:			
+			def goal(request):
+				if request.method != 'GET':
+					return HttpResponse('Método no permitido')
+				
+				return HttpResponse("Recibido")
 
+8. Dudas:
+	· Cómo validar los datos de una forma eficiente
+	· Cómo personalizar el contenido igal que con html
+	· Personalizar las validaciones
+	· Si tengo que realizar un CRUD sobre un modelo, la estrucutra de un modelo de python es muy similar, cómo generar un formulario sin tener que hacer una doble descripción.
+
+9. Pasar valores inicales al formulario, por ejemplo, para actualizar valores:
+	def form(request):
+		comment_form = CommentForm({'name': 'Mari', 'url': 'https:// www.mariacedev.com', 'comment': 'Hola amigos'})
+		return render(request, 'form.html', {'comment_form': comment_form})
 
 
 

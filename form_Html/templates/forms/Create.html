@@ -1,0 +1,7 @@
+<form action="{% url 'postGoal' %}" method="POST">
+
+    {% csrf_token %}
+    <input type="text" name="info" placeholder="Escribe algo...">
+    <input type="submit" value="Enviar">
+
+</form>
