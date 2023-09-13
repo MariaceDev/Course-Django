@@ -1225,6 +1225,62 @@ Continuamos en el proyecto form_django
 
 		- También podemos darle estilo en línea o con un css externo.
 
+35. VALIDACIÓN DE FORMULARIOS
+
+Debemos tener en cuenta 2 tipos de validaciones:
+	· Validaciones generales: aquellas que están explícitas en el formato del dato que rellena el usuario (si el dato es ChardField y tiene un max_length lo que introduzca el usuario debe ajustarse a ello). Usamos los métodos que Django nos ofrece.
+	· Validaciones personalizadas: Por ejemplo, solo aceptamos los email de la compañía. 
+
+Utilizamos el formulario del anterior apartado.
+
+1. Validaciones generales:
+
+ -Incluimos en una misma vista el método get y post, lo hacemos en la vista widget.
+
+ -Utilizamos esta vista para la gestión de los datos del post y trabajamos la validación:
+	· Utilizamos el método isValid
+		def widget(request):
+			if request.method == 'GET':
+				form = ContactForm()
+				return render(request, 'widget.html', {'form': form})
+			
+			if request.method == 'POST':
+				form = ContactForm(request.POST)
+				if form.is_valid():
+					#Todas las acciones cuando los datos son correctos
+					return HttpResponse("Válido")
+				else:
+					#Comunicamos al usuario que los datos no son válidos
+					return HttpResponse("No válido")
+
+2. Validaciones personales:
+
+Para ello usamos las funciones 'clean':
+
+	def clean_name(self):
+        name = self.cleaned_data.get("name") #Para que comience a partir de las validaciones generales
+        #A partir de aquí comenzamos con las validaciones personalizadas
+
+        if name != "Open":
+            raise forms.ValidationError("Tan solo el valor Open está permitido para este campo")
+        
+        else:
+            return name
+
+Para mostrar en el template los errores al usuario:
+
+if request.method == 'POST':
+        form = ContactForm(request.POST)
+        if form.is_valid():
+            #Todas las acciones cuando los datos son correctos
+            return HttpResponse("Válido")
+        else:
+            #Comunicamos al usuario que los datos no son válidos
+            return render(request, 'widget.html', {'form': form})
+
+
+
+
 
 
 
