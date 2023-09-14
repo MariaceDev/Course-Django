@@ -1278,6 +1278,78 @@ if request.method == 'POST':
             #Comunicamos al usuario que los datos no son válidos
             return render(request, 'widget.html', {'form': form})
 
+36. FORMULARIOS A PARTIR DE MODELO
+
+La manera en que se crean las clases en los formularios es muy similar a cómo se hacen en los modelos.
+Por ello, para seguir los principios DRY (dont repeat yourself), existen los model form.
+
+Creamos un nuevo proyecto con un model form:
+
+1. django-admin startproject model_form
+2. python manage.py startapp employees
+3. settings.py>INSTALLED_APPS='employees'
+4. python manage.py check employees
+5. settings.py> 'DIRS': ['template']
+6. employees>models.py:
+	class Employees(models.Model):
+		name = models.CharField(max_length=50, blank=False, null=False)
+		last_name = models.CharField(max_length=50, blank=False, null=False)
+		email = models.EmailField(max_length=50, blank=False, null=False)
+
+		def __str__(self):
+			return self.name
+7. python manage.py makemigrations
+8. python manage.py migrate
+9. model_form>urls.py>path('', include('employees.urls'))
+10. employees>urls.py> path('', views.index, name="index")
+11. Creamos views.py en employees:
+	def index(request):
+    	return HttpResponse("Correcto")
+12. Creamos carpeta template, con index.html y le damos una estructura
+13. Devolvemos un render en la vista index:
+	def index(request):
+    	return render(request, 'index.html', {})
+
+14. Hacemos un formulario para introducir empleados:
+	· Creamos forms.py en employees
+	· Importamos: from django.forms import ModelForm
+	· Importamos el modelo Employee
+	· Creamos una clase EmployeeForm(ModelForm)
+	· Creamos una clase Meta para que Django conozca los campos empleado:
+		class EmployeeForm(ModelForm):
+			class Meta:
+				model = Employee
+	· En views.py importamos EmployeeForm: from .forms import EmployeeForm
+	· Completamos la vista:
+		def index(request):
+			form = EmployeeForm()
+			return render(request, 'index.html', {'form': form})
+	· Introducimos los campos que vamos a usar en forms.py:
+		class EmployeeForm(ModelForm): #Quiero un formulario
+			class Meta:
+				model = Employee #Que rellene este modelo
+				fields = ['name', 'last_name', 'email']#Con estos campos
+	· Comprobamos que funciona
+	· Completamos el html pasándole el form de la vista:
+		<form action="" method="post">
+			{% csrf_token %}
+			{{ form }}
+			<input type="submit" value="Crear">
+    	</form>
+	·Atajo para introducir todos los campos del modelo:
+		fields = '__all__'
+	· Añadir campos:
+		extra_fields = ['salary']
+	· Excluir campos:
+		exclude = ('email, )
+
+	
+
+
+
+
+
+
 
 
 
